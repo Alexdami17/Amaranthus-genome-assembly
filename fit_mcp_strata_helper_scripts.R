@@ -1,5 +1,5 @@
 ############################################################
-## Ks / dS QC + Bayesian changepoint analysis helpers
+## Ks (or dS) QC + Bayesian changepoint analysis helpers
 ## - analyze_ks(): Rosner outliers + LOESS
 ## - fit_mcp_strata(): Rosner outliers + mcp strata + loo
 ## - plot_mcp_cp_posterior(): helper for posterior / cp density
@@ -448,7 +448,7 @@ analyze_ks <- function(
 
 ###########################################################
 ## fit_mcp_strata.R  (single clean file)
-## - ONE fit_mcp_strata() implementation (no duplicates)
+## - fit_mcp_strata() implementation
 ## - Robust Rosner outliers (optional)
 ## - Option 1: enforce minimum segment size + edge buffer
 ## - Option 3: extract cp posterior draws + credible intervals
@@ -555,7 +555,7 @@ suppressPackageStartupMessages({
 # - Optionally buffers away from chromosome edges by cp_buffer (x-units)
 #
 # NOTE:
-#  - We intentionally do NOT add truncation/ordering terms ("T(...)") here,
+#  - Truncation/ordering terms ("T(...)") were not added here,
 #    because support varies across mcp backends/versions.
 #  - In practice, the segment-size index bounds already reduce pathologies.
 # ------------------------------------------------------------
@@ -931,6 +931,4 @@ plot_mcp_cp_posterior <- function(res_mcp, cp_pars = "cp_1", ...) {
   
   list(fit_plot = fit_plot, cp_plots = cp_plots)
 }
-
-
 
