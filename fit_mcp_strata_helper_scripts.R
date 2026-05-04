@@ -1,6 +1,6 @@
 ############################################################
 ## Ks (or dS) QC + Bayesian changepoint analysis helpers
-## - analyze_ks(): Rosner outliers + LOESS
+## - analyze_ks(): Rosner outliers + LOESS / GAM
 ## - fit_mcp_strata(): Rosner outliers + mcp strata + loo
 ## - plot_mcp_cp_posterior(): helper for posterior / cp density
 ############################################################
