@@ -1,12 +1,12 @@
 #=========================================== Analyze Ks with GAM ========================================================================
 #setwd("/home/tranel-lab-user/Alex_tmp/ka_ks_analysis/palmeri_kaks/palmer_mmseqs_out")
-df <- read.delim("/home/tranel-lab-user/Alex_tmp/ka_ks_analysis/palmeri_kaks/palmer_mmseqs_out/palmeri.Chr03.kaks.out", header = TRUE)
+df <- read.delim("data/palmeri.Chr03.kaks.out", header = TRUE)
 
 # Convert bp → Mb if needed
 df$start_mb <- df$start / 1e6
 
 # Use to call a function that is placed within its own file 
-source("/home/tranel-lab-user/Alex_tmp/ka_ks_analysis/scripts/fit_mcp_strata.R")
+source("scripts/fit_mcp_strata.R")
 
 # Use to find potential outliers or extreme values dominating the dataset
 df_tail <- df[order(df$Ks), c("gene_id", "start_mb", "Ks")]
@@ -45,14 +45,14 @@ res_gam$plot
 summary(res_gam$gam_fit)
 
 # Check fit
-# <- gam(Ks ~ s(start_mb, k = 30), data = df, method = "REML")
-#fit <- gam(Ks ~ s(start_mb, k = 100), data = df, method="GCV.Cp", select=FALSE)
-#summary(fit)
+# fit <- gam(Ks ~ s(start_mb, k = 30), data = df, method = "REML")
+# fit <- gam(Ks ~ s(start_mb, k = 100), data = df, method="GCV.Cp", select=FALSE)
+# summary(fit)
 
 # Save plots
-ggsave("/home/tranel-lab-user/Alex_tmp/ka_ks_analysis/palmeri_kaks/palmer_mmseqs_out/qc_GAM_Chr03_plot.png", res_gam$plot, width = 8, height = 4, dpi = 300)
-ggsave("/home/tranel-lab-user/Alex_tmp/ka_ks_analysis/palmeri_kaks/palmer_mmseqs_out/qc_GAM_Chr03_plot.pdf", res_gam$plot, width = 9, height = 4)
-ggsave("/home/tranel-lab-user/Alex_tmp/ka_ks_analysis/palmeri_kaks/palmer_mmseqs_out/qc_GAM_Chr03_plot.svg", res_gam$plot, width = 9, height = 4)
+ggsave("plots/qc_GAM_Chr03_plot.png", res_gam$plot, width = 8, height = 4, dpi = 300)
+ggsave("plots/qc_GAM_Chr03_plot.pdf", res_gam$plot, width = 9, height = 4)
+ggsave("plots/qc_GAM_Chr03_plot.svg", res_gam$plot, width = 9, height = 4)
 #=========================================================================================================================================
 
 
@@ -125,8 +125,8 @@ p2 <- p +
     y = expression(K[s]),
     title = "Posterior fit"
   ) + coord_cartesian(ylim = c(0, 0.4))
-ggsave("/home/tranel-lab-user/Alex_tmp/ka_ks_analysis/palmeri_kaks/palmer_mmseqs_out/posterior_fit_Chr03_plot.svg", p2, width = 9, height = 4)
-ggsave("/home/tranel-lab-user/Alex_tmp/ka_ks_analysis/palmeri_kaks/palmer_mmseqs_out/posterior_fit_Chr03_plot_2.svg", p2, width = 12, height = 5.3, units = "in")
+ggsave("plots/posterior_fit_Chr03_plot.svg", p2, width = 9, height = 4)
+ggsave("plots/posterior_fit_Chr03_plot_2.svg", p2, width = 12, height = 5.3, units = "in")
 
 # Check whether cp_1 is really stable (not drifting)
 best_fit <- res_mcp$fits[[res_mcp$best_index]]
@@ -135,7 +135,7 @@ res_mcp$cp_summary
 # the "stratum boundary" is not stable (kernel density estimate?)
 mcp::plot_pars(best_fit, pars = "cp_1")
 # Look at segment means (plateaus) for interpretability
-# The "y_mean" is the mean Ks value to report for the strata in the manuscript
+# The "y_mean" is the mean Ks value to report for the strata
 res_mcp$seg_df
 
 # Alternatively, you can compute the mean explicitly from the exact data used for plotting
@@ -178,7 +178,7 @@ res_mcp2$loo_compare
 res_mcp2$loo_weights
 
 res_mcp2$best_n_changepoints
-res_mcp2$change_points # # numeric cp position(s) for the best model; length = best_n_changepoints
+res_mcp2$change_points # numeric cp position(s) for the best model; length = best_n_changepoints
 table(res_mcp2$data$strata_best)
 
 res_mcp2$plot         # dashed = chosen mean/median; dotted = CI bounds (optional)
