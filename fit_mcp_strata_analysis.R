@@ -1,5 +1,4 @@
 #=========================================== Analyze Ks with GAM ========================================================================
-#setwd("/home/tranel-lab-user/Alex_tmp/ka_ks_analysis/palmeri_kaks/palmer_mmseqs_out")
 df <- read.delim("data/palmeri.Chr03.kaks.out", header = TRUE)
 
 # Convert bp → Mb if needed
